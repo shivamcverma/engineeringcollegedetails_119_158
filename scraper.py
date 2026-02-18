@@ -73,6 +73,12 @@ def build_urls(BASE_URL):
         # "qna": "https://ask.shiksha.com/which-is-better-for-mba-iim-ahmedabad-or-jbims-qna-5114413"
     }
 # ---------------- DRIVER ----------------
+import os
+from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.chrome.service import Service
+from webdriver_manager.chrome import ChromeDriverManager
+
 def create_driver():
     options = Options()
 
@@ -618,13 +624,14 @@ def scrape_fees(driver,URLS):
     except:
         print("⚠️ fees card not found")
     fees_data = []
+
     try:
         wait.until(EC.presence_of_element_located(
             (By.CSS_SELECTOR, "table.table._26d3"))
         )
     except TimeoutException:
         print(f"⚠️ Admission overview section not found for")
-
+        
     driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
     time.sleep(2)
 
@@ -3024,7 +3031,7 @@ def parse_faq_scholarships_section(driver, URLS):
 def scrape_mba_colleges():
     driver = create_driver()
     all_data = []
-    c_count = 121
+    c_count = 81
 
     try:
         for base_url in BASE_URL:
@@ -3093,8 +3100,6 @@ def scrape_mba_colleges():
 
 
 import time
-
-
 import os
 
 TEMP_FILE = "en_details_data.tmp.json"
@@ -3110,7 +3115,8 @@ def auto_update_scraper():
     #         return
 
     print("🔄 Scraping started")
-    data = scrape_mba_colleges()
+    data = scrape_mba_colleges() 
+    # Write JSON to temporary file first
     with open(TEMP_FILE, "w", encoding="utf-8") as f:
         json.dump(data, f, indent=2, ensure_ascii=False)
 
