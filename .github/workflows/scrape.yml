@@ -36,6 +36,6 @@ jobs:
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
-          git add en_details_data.json
+          git add iim_ahmedabad_full_data.json
           git commit -m "Auto update MBA data" || echo "No changes"
           git push
